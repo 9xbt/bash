@@ -758,34 +758,50 @@ sigterm_sighandler (sig)
 /* Signal functions used by the rest of the code. */
 #if !defined (HAVE_POSIX_SIGNALS)
 
+#if 0
 /* Perform OPERATION on NEWSET, perhaps leaving information in OLDSET. */
-sigprocmask (operation, newset, oldset)
-     int operation, *newset, *oldset;
+int sigprocmask(int operation, const sigset_t *newset, sigset_t *oldset)
 {
-  int old, new;
+    sigset_t current_set, new_sigset;
 
-  if (newset)
-    new = *newset;
-  else
-    new = 0;
-
-  switch (operation)
-    {
-    case SIG_BLOCK:
-      old = sigblock (new);
-      break;
-
-    case SIG_SETMASK:
-      old = sigsetmask (new);
-      break;
-
-    default:
-      internal_error (_("sigprocmask: %d: invalid operation"), operation);
+    if (sigprocmask(SIG_SETMASK, NULL, &current_set) < 0) {
+        perror("sigprocmask: get current mask");
+        return -1;
     }
 
-  if (oldset)
-    *oldset = old;
+    if (oldset)
+        *oldset = *(int *)&current_set;  // WARNING: non-portable if sigset_t != int
+
+    if (!newset)
+        return 0;
+
+    memcpy(&new_sigset, &current_set, sizeof(sigset_t));
+    *(int *)&new_sigset = *newset;  // Treat newset as raw int bitmask
+
+    switch (operation)
+    {
+    case SIG_BLOCK:
+        if (sigprocmask(SIG_BLOCK, &new_sigset, NULL) < 0) {
+            perror("sigprocmask: block");
+            return -1;
+        }
+        break;
+
+    case SIG_SETMASK:
+        if (sigprocmask(SIG_SETMASK, &new_sigset, NULL) < 0) {
+            perror("sigprocmask: setmask");
+            return -1;
+        }
+        break;
+
+    default:
+        fprintf(stderr, "sigprocmask: %d: invalid operation\n", operation);
+        return -1;
+    }
+
+    return 0;
 }
+#endif
 
 #else
 

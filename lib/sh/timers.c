@@ -113,6 +113,7 @@ shtimer_set (sh_timer *t, time_t sec, long usec)
   if (gettimeofday (&now, 0) < 0)
     timerclear (&now);
 
+  #define USEC_PER_SEC 1000000
   t->tmout.tv_sec = now.tv_sec + sec;
   t->tmout.tv_usec = now.tv_usec + usec;
   if (t->tmout.tv_usec > USEC_PER_SEC)

@@ -148,7 +148,7 @@ initialize_traps ()
 {
   register int i;
 
-  initialize_signames();
+  //initialize_signames();
 
   trap_list[EXIT_TRAP] = trap_list[DEBUG_TRAP] = trap_list[ERROR_TRAP] = trap_list[RETURN_TRAP] = (char *)NULL;
   sigmodes[EXIT_TRAP] = sigmodes[DEBUG_TRAP] = sigmodes[ERROR_TRAP] = sigmodes[RETURN_TRAP] = SIG_INHERITED;
@@ -213,12 +213,12 @@ char *
 signal_name (sig)
      int sig;
 {
-  char *ret;
+  char *ret = "TODO: signal_name";
 
   /* on cygwin32, signal_names[sig] could be null */
-  ret = (sig >= BASH_NSIG || sig < 0 || signal_names[sig] == NULL)
-	? _("invalid signal number")
-	: signal_names[sig];
+  //ret = (sig >= BASH_NSIG || sig < 0 || signal_name[sig] == NULL)
+	//? _("invalid signal number")
+	//: signal_name[sig];
 
   return ret;
 }
@@ -258,7 +258,8 @@ decode_signal (string, flags)
   /* A leading `SIG' may be omitted. */
   for (sig = 0; sig < BASH_NSIG; sig++)
     {
-      name = signal_names[sig];
+      //name = signal_names[sig];
+      name = "TODO: trap:262";
       if (name == 0 || name[0] == '\0')
 	continue;
 
@@ -280,7 +281,8 @@ decode_signal (string, flags)
 
       /* Check name with SIG prefix case sensitively or insensitively
 	 depending on whether flags includes DSIG_NOCASE */
-      name = signal_names[sig];
+      //name = signal_names[sig];
+      name = "TODO: trap.c:284";
       if ((flags & DSIG_NOCASE) && strcasecmp (string, name) == 0)
 	return ((int)sig);
       else if ((flags & DSIG_NOCASE) == 0 && strcmp (string, name) == 0)

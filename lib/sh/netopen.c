@@ -344,7 +344,7 @@ int
 netopen (path)
      char *path;
 {
-  internal_error (_("network operations not supported"));
+  //internal_error (_("network operations not supported"));
   return -1;
 }
 

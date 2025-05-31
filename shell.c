@@ -372,6 +372,7 @@ main (argc, argv, env)
      char **argv, **env;
 #endif /* !NO_MAIN_ENV_ARG */
 {
+
   register int i;
   int code, old_errexit_flag;
 #if defined (RESTRICTED_SHELL)

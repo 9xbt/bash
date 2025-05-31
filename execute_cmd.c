@@ -1384,8 +1384,8 @@ time_command (command, asynchronous, pipe_in, pipe_out, fds_to_close)
       selfb.ru_utime.tv_usec = kidsb.ru_utime.tv_usec = selfb.ru_stime.tv_usec = kidsb.ru_stime.tv_usec = 0;
       before = shellstart;
 #else
-      before.tms_utime = before.tms_stime = before.tms_cutime = before.tms_cstime = 0;
-      tbefore = shell_start_time;
+      //before.tms_utime = before.tms_stime = before.tms_cutime = before.tms_cstime = 0;
+      //tbefore = shell_start_time;
 #endif
     }
 
@@ -2075,7 +2075,7 @@ coproc_dispose (cp)
   if (cp == 0)
     return;
 
-  BLOCK_SIGNAL (SIGCHLD, set, oset);
+  //BLOCK_SIGNAL (SIGCHLD, set, oset);
   cp->c_lock = 3;
   coproc_unsetvars (cp);
   FREE (cp->c_name);
@@ -2419,7 +2419,7 @@ execute_coproc (command, pipe_in, pipe_out, fds_to_close)
   sh_openpipe ((int *)&rpipe);	/* 0 = parent read, 1 = child write */
   sh_openpipe ((int *)&wpipe); /* 0 = child read, 1 = parent write */
 
-  BLOCK_SIGNAL (SIGCHLD, set, oset);
+  //BLOCK_SIGNAL (SIGCHLD, set, oset);
 
   coproc_pid = make_child (p = savestring (tcmd), FORK_ASYNC);
 
@@ -2509,7 +2509,7 @@ execute_pipeline (command, asynchronous, pipe_in, pipe_out, fds_to_close)
 
 #if defined (JOB_CONTROL)
   sigset_t set, oset;
-  BLOCK_CHILD (set, oset);
+  //BLOCK_CHILD (set, oset);
 #endif /* JOB_CONTROL */
 
   ignore_return = (command->flags & CMD_IGNORE_RETURN) != 0;
@@ -2529,7 +2529,7 @@ execute_pipeline (command, asynchronous, pipe_in, pipe_out, fds_to_close)
 #if defined (JOB_CONTROL)
 	  terminate_current_pipeline ();
 	  kill_current_pipeline ();
-	  UNBLOCK_CHILD (oset);
+	  //UNBLOCK_CHILD (oset);
 #endif /* JOB_CONTROL */
 	  last_command_exit_value = EXECUTION_FAILURE;
 	  /* The unwind-protects installed below will take care
@@ -2627,7 +2627,7 @@ execute_pipeline (command, asynchronous, pipe_in, pipe_out, fds_to_close)
 	  lastpipe_jid = stop_pipeline (0, (COMMAND *)NULL);	/* XXX */
 	  add_unwind_protect (lastpipe_cleanup, old_frozen);
 #if defined (JOB_CONTROL)
-	  UNBLOCK_CHILD (oset);		/* XXX */
+	  //UNBLOCK_CHILD (oset);		/* XXX */
 #endif
 	}
       if (cmd)
@@ -2645,7 +2645,7 @@ execute_pipeline (command, asynchronous, pipe_in, pipe_out, fds_to_close)
     restore_stdin (lstdin);
 
 #if defined (JOB_CONTROL)
-  UNBLOCK_CHILD (oset);
+  //UNBLOCK_CHILD (oset);
 #endif
 
   QUIT;

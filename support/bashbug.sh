@@ -29,7 +29,7 @@
 MACHINE="x86_64"
 OS="linux-gnu"
 CC="clang"
-CFLAGS="-I/opt/mlibc/include -isystem /opt/mlibc/include -ffreestanding -nostdlib -nostartfiles -fno-pic -fno-stack-protector -mcmodel=large -g -std=gnu89"
+CFLAGS="-I/opt/mlibc/include -isystem /opt/mlibc/include -ffreestanding -nostdlib -nostartfiles -fno-pic -fno-stack-protector -mcmodel=large -g -DHANDLE_MULTIBYTE -DHAVE_STRERROR -DJOB_CONTROL -std=gnu17"
 RELEASE="5.2"
 PATCHLEVEL="!PATCHLEVEL!"
 RELSTATUS="release"

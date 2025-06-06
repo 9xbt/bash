@@ -5999,6 +5999,7 @@ decode_prompt_string (string)
 	      goto add_string;
 
 	    case 'j':
+		  extern int count_all_jobs();
 	      temp = itos (count_all_jobs ());
 	      goto add_string;
 
